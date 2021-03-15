@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fetch</title><meta charset="utf-8">
+  </head>
+  <body>
+    <button>Поехали</button>
+    <ol id="values">
+        <li>10</li>
+        <li>20</li>
+        <li>30</li>
+    </ol>
+    <ol id="urls">
+        <li>https://kodaktor.ru/api/m/</li>
+        <li>https://kodaktor.ru/api/MS2/</li>
+        <li>https://kodaktor.ru/api/MS3/</li>
+    </ol>
+    <script>
+        const values = Array
+            .from(document.querySelectorAll('ol#values li'))
+            .map(item => item.innerHTML);
+        const URLs = Array
+            .from(document.querySelectorAll('ol#urls li'))
+            .map(item => item.innerHTML);
+        document
+            .querySelector('button')
+            .addEventListener('click',
+            async ({ target: t }) => {
+                let result = [];
+                t.textContent = 'Думаю...';
+                let opt = { 
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        })}; 
+                for(var i in values) {
+                    let r =  await fetch(URLs[i] + values[i] + '/' + result[result.length - 1], opt).then(x => x.json());
+                    result.push(r.result);
+                }                  
+                t.textContent = `Результат: ${result} `;
+            }
+        ); 
+    </script>
+  </body>
+</html>
